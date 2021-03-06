@@ -8,10 +8,10 @@ interface SelectInterface {
 
 const Select:React.FC<SelectInterface> = ({value, change}) => {
   return (
-    <StyledContainer value={value} onChange={change}>
+    <StyledContainer value={value} onChange={change} className="form-select">
       <option value="date">Date</option>
       <option value="title">Title</option>
-      <option value="active">Active</option>
+      <option value="done">Done</option>
     </StyledContainer>
   )
 }

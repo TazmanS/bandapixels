@@ -35,7 +35,7 @@ const List:React.FC<TasksInterface> = ({tasks}) => {
   }
 
   function activeFilter(item:any) {
-    if (select === 'active') {
+    if (select === 'done') {
       return item.done === true
     } else {
       return true
@@ -44,24 +44,28 @@ const List:React.FC<TasksInterface> = ({tasks}) => {
 
   return (
     <StyledContainer>
-      Sort: <Select value={select} change={setSelectFunction}/>
-      <label>
-        Seach: 
-        <BaseInput 
-          value={search} 
-          change={setSearchFunction} 
-        />
-      </label>
+      <StyledFilter>
+        <div>
+          Seach: 
+          <BaseInput 
+            value={search} 
+            change={setSearchFunction} 
+          />
+        </div>
+        <div>
+          Sort: 
+          <Select value={select} change={setSelectFunction}/>  
+        </div>
+      </StyledFilter>
       {tasks
         .filter(item => item.title.toLowerCase().includes(search.toLowerCase()))
         .filter(activeFilter)
         .sort(selectSort)
-        .map((item, index) => {
+        .map((item) => {
         return (
           <ListItem 
-            key={item.date + index}
+            key={item.date}
             item={item}
-            index={index}
           />
         )
       })}
@@ -70,7 +74,14 @@ const List:React.FC<TasksInterface> = ({tasks}) => {
 }
 
 const StyledContainer = styled.div `
+  margin-bottom: 30px;
+  
+`
 
+const StyledFilter = styled.div `
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `
 
 export default List

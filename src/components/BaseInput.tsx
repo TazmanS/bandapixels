@@ -12,12 +12,14 @@ const BaseInput:React.FC<BaseInputInterface> = ({value, change}) => {
       type="text" 
       value={value} 
       onChange={ event => change(event)}
+      className="form-control"
     />
   )
 }
 
 const StyledContainer = styled.input `
-  
+  font-size: 16px;
+  padding: 5px;
 `
 
 export default BaseInput

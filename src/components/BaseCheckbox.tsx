@@ -5,14 +5,14 @@ import {changeTask} from '../store/actions'
 
 interface CheckboxInterface {
   check: boolean,
-  index: number
+  id: number
 }
 
-const BaseCheckbox:React.FC<CheckboxInterface> = ({check, index}) => {
+const BaseCheckbox:React.FC<CheckboxInterface> = ({check, id}) => {
   const dispatch = useDispatch()
 
   function changeFunction() {
-    dispatch(changeTask(index))
+    dispatch(changeTask(id))
   }
 
   return (
@@ -20,12 +20,13 @@ const BaseCheckbox:React.FC<CheckboxInterface> = ({check, index}) => {
       type="checkbox" 
       checked={check}
       onChange={changeFunction}
+      className="form-check-input"
     />
   )
 }
 
 const StyledContainer = styled.input `
-  
+  min-width: 16px;
 `
 
 export default BaseCheckbox

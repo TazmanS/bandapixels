@@ -10,22 +10,26 @@ interface ListItemInterface {
     title: string,
     date: number,
     done: boolean
-  },
-  index: number
+  }
 }
 
-const ListItem:React.FC<ListItemInterface> = ({item, index}) => {
+const ListItem:React.FC<ListItemInterface> = ({item}) => {
   const dispatch = useDispatch()
 
   function removeItem() {
-    dispatch(deleteTask(index))
+    dispatch(deleteTask(item.date))
   }
 
   return (
     <StyledContainer>
-      <BaseCheckbox check={item.done} index={index}/>   
-        <div>{item.title}</div>
+      <label>
+        <BaseCheckbox check={item.done} id={item.date}/>   
+        <StyledTitle done={item.done ? item.done.toString() : undefined}>
+          {item.title}
+        </StyledTitle>  
+      </label>
       <BaseButton
+        color="danger"
         click={removeItem}
       >REMOVE</BaseButton>
     </StyledContainer>
@@ -33,7 +37,24 @@ const ListItem:React.FC<ListItemInterface> = ({item, index}) => {
 }
 
 const StyledContainer = styled.div `
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px auto;
+  padding: 0 10px;
 
+  & label {
+    display: flex;
+    align-items: center;
+  }
+`
+
+const StyledTitle = styled.div<{done: String | undefined}> `
+  word-break: break-all;
+  margin: 0 10px;
+  font-size: 24px;
+  text-decoration: ${({done}) => done ? 'line-through' : null};
 `
 
 export default ListItem

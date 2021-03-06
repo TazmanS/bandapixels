@@ -12,7 +12,10 @@ const AddTask = () => {
   const [newTask, setNewTask] = useState('')
 
   function addTaskFunction() {
-    dispatch(addTask(newTask))
+    if (newTask.trim()) {
+      dispatch(addTask(newTask))  
+    }
+    
     setNewTask('')
   }
 
@@ -31,7 +34,14 @@ const AddTask = () => {
 }
 
 const StyledContainer = styled.form `
+  display: flex;
+  justify-content: center;
+  width: 600px;
+  gap: 15px;
 
+  & input {
+    width: auto;
+  }
 `
 
 export default AddTask

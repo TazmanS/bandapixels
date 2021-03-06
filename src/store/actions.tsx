@@ -16,16 +16,16 @@ export const addTask = (newTask: string) => {
   }
 }
 
-export const deleteTask = (index: number) => {
+export const deleteTask = (id: number) => {
   return {
     type: ActionType.DELETE_TASK,
-    payload: index
+    payload: id
   }
 }
 
-export const changeTask = (index: number) => {
+export const changeTask = (id: number) => {
   return {
     type: ActionType.CHANGE_DONE,
-    payload: index
+    payload: id
   }
 }

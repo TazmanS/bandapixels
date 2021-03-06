@@ -4,7 +4,7 @@ const initialState = {
   tasks: [
     {
       title: 'Welcome',
-      date: 0,
+      date: 0, // id
       done: false
     }
   ]
@@ -55,7 +55,8 @@ export const reducer = (state : State = initialState, action: Action): State => 
     
     case ActionType.DELETE_TASK: 
       let newArrDel = state.tasks.concat()
-      newArrDel.splice(action.payload, 1)
+      let indexDel = newArrDel.findIndex(item => item.date === action.payload)
+      newArrDel.splice(indexDel, 1)
       return {
         ...state,
         tasks: newArrDel
@@ -63,7 +64,9 @@ export const reducer = (state : State = initialState, action: Action): State => 
 
     case ActionType.CHANGE_DONE: 
       let newArrChange = state.tasks.concat()
-      newArrChange[action.payload].done = !newArrChange[action.payload].done
+      let indexChange = newArrChange.findIndex(item => item.date === action.payload)
+      newArrChange[indexChange].done = !newArrChange[indexChange].done
+
       return {
         ...state,
         tasks: newArrChange
