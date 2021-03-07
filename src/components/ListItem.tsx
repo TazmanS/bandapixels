@@ -4,6 +4,7 @@ import BaseButton from './BaseButton'
 import BaseCheckbox from './BaseCheckbox'
 import {useDispatch} from 'react-redux'
 import {deleteTask} from '../store/actions'
+import Time from './Time'
 
 interface ListItemInterface {
   item: {
@@ -21,17 +22,22 @@ const ListItem:React.FC<ListItemInterface> = ({item}) => {
   }
 
   return (
-    <StyledContainer>
+    <StyledContainer className="listItem">
       <label>
-        <BaseCheckbox check={item.done} id={item.date}/>   
+        <StyledCheckTime>
+          <sup><Time date={item.date}/></sup>   
+          <BaseCheckbox check={item.done} id={item.date}/>   
+        </StyledCheckTime>
         <StyledTitle done={item.done ? item.done.toString() : undefined}>
           {item.title}
-        </StyledTitle>  
+        </StyledTitle> 
       </label>
       <BaseButton
         color="danger"
         click={removeItem}
-      >REMOVE</BaseButton>
+      >
+        REMOVE
+      </BaseButton>
     </StyledContainer>
   )
 }
@@ -55,6 +61,12 @@ const StyledTitle = styled.div<{done: String | undefined}> `
   margin: 0 10px;
   font-size: 24px;
   text-decoration: ${({done}) => done ? 'line-through' : null};
+`
+
+const StyledCheckTime = styled.span `
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 export default ListItem

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import BaseInput from './BaseInput'
+import FilterBlock from './FilterBlock'
 import ListItem from './ListItem'
-import Select from './Select'
 
 interface TasksInterface {
   tasks: {
@@ -16,13 +15,18 @@ const List:React.FC<TasksInterface> = ({tasks}) => {
 
   const [search, setSearch] = useState('')
   const [select, setSelect] = useState('')
+  const [reverseArr, setReverseArr] = useState('')
 
-  function setSearchFunction(e:React.ChangeEvent<HTMLInputElement>) {
-    setSearch(e.target.value)
+  function setSearchFunction(event:React.ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value)
   }
 
   function setSelectFunction(event:React.ChangeEvent<HTMLSelectElement>) {
     setSelect(event.target.value)
+  }
+
+  function setReverseArrFunction(event:React.ChangeEvent<HTMLSelectElement>) {
+    setReverseArr(event.target.value)
   }
 
   function selectSort(a:any, b:any) {
@@ -42,32 +46,37 @@ const List:React.FC<TasksInterface> = ({tasks}) => {
     }
   }
 
+  function filters() {
+    let copyArr = tasks.concat()
+      .filter(item => item.title.toLowerCase().includes(search.toLowerCase()))
+      .filter(activeFilter)
+      .sort(selectSort)
+
+      if (reverseArr === 'reverse') {
+        return copyArr.reverse()
+      } else {
+        return copyArr
+      }
+  }
+
   return (
     <StyledContainer>
-      <StyledFilter>
-        <div>
-          Seach: 
-          <BaseInput 
-            value={search} 
-            change={setSearchFunction} 
-          />
-        </div>
-        <div>
-          Sort: 
-          <Select value={select} change={setSelectFunction}/>  
-        </div>
-      </StyledFilter>
-      {tasks
-        .filter(item => item.title.toLowerCase().includes(search.toLowerCase()))
-        .filter(activeFilter)
-        .sort(selectSort)
+      <FilterBlock 
+        search={search}
+        setSearch={setSearchFunction}
+        select={select}
+        setSelect={setSelectFunction}
+        reverseArr={reverseArr}
+        setReverseArr={setReverseArrFunction}
+      />
+      {filters()
         .map((item) => {
-        return (
-          <ListItem 
-            key={item.date}
-            item={item}
-          />
-        )
+          return (
+            <ListItem 
+              key={item.date}
+              item={item}
+            />
+          )
       })}
     </StyledContainer>
   )
@@ -75,13 +84,7 @@ const List:React.FC<TasksInterface> = ({tasks}) => {
 
 const StyledContainer = styled.div `
   margin-bottom: 30px;
-  
 `
 
-const StyledFilter = styled.div `
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`
 
 export default List

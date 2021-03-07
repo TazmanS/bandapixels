@@ -4,7 +4,7 @@ const initialState = {
   tasks: [
     {
       title: 'Welcome',
-      date: 0, // id
+      date: new Date().getTime(), // id
       done: false
     }
   ]
